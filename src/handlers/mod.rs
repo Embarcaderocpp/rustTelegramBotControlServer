@@ -1,7 +1,6 @@
 pub mod commands;
 pub mod start;
-mod status;
-mod time;
+pub mod uptime;
 pub mod free;
-mod rom;
+pub mod rom;
 pub mod info;
