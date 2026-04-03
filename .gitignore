@@ -1,2 +1,3 @@
 /target
 .env
+allowed_users.txt

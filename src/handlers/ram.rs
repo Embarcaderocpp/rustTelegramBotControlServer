@@ -1,9 +1,10 @@
 use sysinfo::{MemoryRefreshKind, System};
 use teloxide::{Bot, prelude::*, RequestError};
 
-pub async fn free(bot: Bot, msg: Message) -> Result<(), RequestError> {
+pub async fn ram(bot: Bot, msg: Message) -> Result<(), RequestError> {
     let info = memory_info();
-    bot.send_message(msg.chat.id, info).await?;
+    bot.send_message(msg.chat.id, info).parse_mode(teloxide::types::ParseMode::Html)
+        .await?;
     Ok(())
 }
 
@@ -19,11 +20,11 @@ fn memory_info() -> String {
     let used_percent = (used as f64 / total as f64) * 100.0;
 
     format!(
-        "  Память системы\n\
-          Общая:     {:.2} GB \n\
-          Занято:    {:.2} GB  (  {:.1}% )\n\
-          Доступно:  {:.2} GB \n\
-          Свободно:  {:.2} GB  ",
+        " <b>Память системы</b>\n\
+             Общая:     <b>{:.2}</b> GB \n\
+             Занято:    <b>{:.2}</b> GB  (  {:.1}% )\n\
+             Доступно:  <b>{:.2}</b> GB \n\
+             Свободно:  <b>{:.2}</b> GB  ",
         bytes_to_gb(total),
         bytes_to_gb(used),
         used_percent,

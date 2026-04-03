@@ -13,7 +13,7 @@ pub enum Command {
     #[command(description = "Time work server.")]
     Uptime,
     #[command(description = "Show free RAM server.")]
-    Free,
+    Ram,
     #[command(description = "Show ROM server.")]
     Rom,
     #[command(description = "Server info.")]
@@ -25,17 +25,14 @@ pub async fn command_handler(
     msg: Message,
     cmd: Command,
 ) -> ResponseResult<()> {
+
     match cmd {
         Command::Start => crate::handlers::start::start(bot, msg).await?,
-        Command::Free => crate::handlers::free::free(bot, msg).await?,
+        Command::Ram => crate::handlers::ram::ram(bot, msg).await?,
         Command::Uptime => crate::handlers::uptime::uptime(bot, msg).await?,
-        Command::Rom => {
-            bot.send_message(msg.chat.id, "bot: Rom").await?;
-        }
-        Command::Info => {
-            bot.send_message(msg.chat.id, "bot: Info").await?;
-        }
-        Command::Help => {
+        Command::Rom => crate::handlers::rom::rom(bot, msg).await?,
+        Command::Info => crate::handlers::info::info(bot, msg).await?,
+        Command::Help => { 
             bot.send_message(msg.chat.id, Command::descriptions().to_string()).await?;
         }
     }
